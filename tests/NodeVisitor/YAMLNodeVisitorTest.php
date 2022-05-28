@@ -11,18 +11,25 @@ use YAMLParser\Parser\NEONParser;
 
 final class YAMLNodeVisitorTest extends TestCase
 {
+    private NEONParser $neonParser;
+
+    protected function setUp(): void
+    {
+        $this->neonParser = new NEONParser();
+    }
+
     public function test(): void
     {
-        $neonParser = new NEONParser();
-        $node = $neonParser->parse(file_get_contents(__DIR__ . '/Fixture/before_services_listener.yaml'));
 
+        // make the change happen
         $nodeTraverser = new NodeTraverser([
             new SubscriberToListenerNodeVisitor()
         ]);
+
+        $node = $this->neonParser->parseFile(__DIR__ . '/Fixture/before_services_listener.yaml');
         $nodeTraverser->traverse($node);
 
         $printedNode = rtrim($node->toString()) . PHP_EOL;
-
         $this->assertStringEqualsFile(__DIR__ . '/Fixture/after_services_subscriber.yaml', $printedNode);
     }
 }

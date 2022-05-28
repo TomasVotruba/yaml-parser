@@ -1,6 +1,22 @@
 {
+    "name": "yaml-parser/yaml-parser",
     "require": {
         "php": "^8.1",
-        "symfony/yaml": "^6.1"
+        "symfony/yaml": "^6.1",
+        "nette/neon": "^3.3"
+    },
+    "require-dev": {
+        "tracy/tracy": "^2.9",
+        "phpunit/phpunit": "^9.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "YAMLParser\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "YAMLParser\\Tests\\": "tests"
+        }
     }
 }

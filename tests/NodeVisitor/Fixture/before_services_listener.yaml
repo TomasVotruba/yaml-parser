@@ -2,3 +2,8 @@ services:
     App\EventListener\ExceptionListener:
         tags:
             - { name: kernel.event_listener, event: kernel.exception }
+-----
+services:
+    App\EventListener\ExceptionListener:
+        tags:
+            - {name: kernel.event_subscriber}

@@ -18,6 +18,7 @@ interface NodeVisitorInterface
 
     /**
      * @param TNode $node
+     * @return Node|null|int
      */
     public function refactor(Node $node);
 }

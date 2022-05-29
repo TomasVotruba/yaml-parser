@@ -38,6 +38,7 @@ final class SubscriberToListenerNodeVisitor implements NodeVisitorInterface
 
     /**
      * @param ArrayItemNode $node
+     * @return Node|null|int
      */
     public function refactor(Node $node)
     {
@@ -64,7 +65,13 @@ final class SubscriberToListenerNodeVisitor implements NodeVisitorInterface
 
             $arrayInlineNode = $arrayItemNode->value;
             foreach ($arrayInlineNode->items as $key => $inlineArrayItemNode) {
-                if ($inlineArrayItemNode->key->toString() === 'name') {
+                $keyNode = $inlineArrayItemNode->key;
+                if ($keyNode === null) {
+                    continue;
+                }
+
+
+                if ($keyNode->toString() === 'name') {
                     // rename only if event subsbibers
                     if ($inlineArrayItemNode->value->toString() === self::EVENT_LISTENER_EVENT_NAME) {
                         $inlineArrayItemNode->value = new LiteralNode(self::EVENT_SUBSCRIBER_EVENT_NAME);
@@ -72,10 +79,12 @@ final class SubscriberToListenerNodeVisitor implements NodeVisitorInterface
                 }
 
                 // remove completely
-                if (in_array($inlineArrayItemNode->key->toString(), ['event', 'priority', 'method'], true)) {
+                if (in_array($keyNode->toString(), ['event', 'priority', 'method'], true)) {
                     unset($arrayInlineNode->items[$key]);
                 }
             }
         }
+
+        return $node;
     }
 }

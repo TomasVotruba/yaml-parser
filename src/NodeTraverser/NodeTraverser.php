@@ -17,7 +17,7 @@ final class NodeTraverser
     {
     }
 
-    public function traverse(Node $node)
+    public function traverse(Node $node): void
     {
         $traverser = new Traverser();
 
@@ -30,6 +30,8 @@ final class NodeTraverser
 
                 $nodeVisitor->refactor($node);
             }
+
+            return null;
         });
     }
 }

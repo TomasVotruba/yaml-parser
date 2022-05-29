@@ -40,7 +40,7 @@ final class YAMLNodeVisitorTest extends TestCase
         $this->assertEquals($inputAndExpected->getExpected(), $printedNode);
     }
 
-    public function provideData()
+    public function provideData(): \Iterator
     {
         return StaticFixtureFinder::yieldDirectory(__DIR__ . '/Fixture', '*.yaml');
     }

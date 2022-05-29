@@ -10,15 +10,15 @@ use Symplify\EasyTesting\StaticFixtureSplitter;
 use Symplify\SmartFileSystem\SmartFileInfo;
 use YAMLParser\NodeTraverser\NodeTraverser;
 use YAMLParser\NodeVisitor\Symfony\SubscriberToListenerNodeVisitor;
-use YAMLParser\Parser\NEONParser;
+use YAMLParser\Parser\YAMLParser;
 
 final class YAMLNodeVisitorTest extends TestCase
 {
-    private NEONParser $neonParser;
+    private YAMLParser $yamlParser;
 
     protected function setUp(): void
     {
-        $this->neonParser = new NEONParser();
+        $this->yamlParser = new YAMLParser();
     }
 
     /**
@@ -33,7 +33,7 @@ final class YAMLNodeVisitorTest extends TestCase
             new SubscriberToListenerNodeVisitor()
         ]);
 
-        $node = $this->neonParser->parse($inputAndExpected->getInput());
+        $node = $this->yamlParser->parse($inputAndExpected->getInput());
         $nodeTraverser->traverse($node);
 
         $printedNode = rtrim($node->toString()) . PHP_EOL;

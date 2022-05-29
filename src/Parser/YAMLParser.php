@@ -4,44 +4,34 @@ declare(strict_types=1);
 
 namespace YAMLParser\Parser;
 
+use Nette\Neon\Lexer;
 use Nette\Neon\Node;
+use Nette\Neon\Parser;
+use Nette\Utils\FileSystem;
 
 final class YAMLParser
 {
-    /**
-     * @var string
-     */
-    private const INPUT = 'key: value';
-
-    private NEONParser $neonParser;
-
     public function __construct()
     {
-        $this->neonParser = new NEONParser();
+    }
+
+    private function parseWithNEONParser(string $fileContent): Node
+    {
+        $parser = new Parser();
+        $lexer = new Lexer();
+        $tokenStream = $lexer->tokenize($fileContent);
+
+        return $parser->parse($tokenStream);
     }
 
     public function parseFile(string $filePath): Node
     {
-        return $this->neonParser->parseFile($filePath);
+        $fileContents = FileSystem::read($filePath);
+        return $this->parseWithNEONParser($fileContents);
     }
 
-    public function parse()
+    public function parse(string $contents): Node
     {
-        $yamlparser = new \Symfony\Component\Yaml\Parser();
-
-        $result = $yamlparser->parse(self::INPUT);
-        // 1. here we have array
-        dump($result);
-
-        // 2. but we want nodes :)
-        $nodes = $this->neonParser->parse(self::INPUT);
-        dump($nodes);
-
-        // 3. what about advanced file?
-        $fileNodes = $this->neonParser->parse(file_get_contents(self::FILE_INPUT));
-        dump($fileNodes);
-
-        // 4. travnerse and compare
-        dump($fileNodes->toString());
+        return $this->parseWithNEONParser($contents);
     }
 }

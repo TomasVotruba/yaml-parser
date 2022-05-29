@@ -71,8 +71,8 @@ final class SubscriberToListenerNodeVisitor implements NodeVisitorInterface
                     }
                 }
 
-                if ($inlineArrayItemNode->key->toString() === 'event') {
-                    // remove completely
+                // remove completely
+                if (in_array($inlineArrayItemNode->key->toString(), ['event', 'priority', 'method'], true)) {
                     unset($arrayInlineNode->items[$key]);
                 }
             }

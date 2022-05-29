@@ -5,7 +5,7 @@ services:
 
     App\EventListener\AnotherListener:
         tags:
-            - { name: kernel.event_listener, event: kernel.exception }
+            - { name: kernel.event_listener, event: kernel.exception, method: inside, priority: 25 }
 -----
 services:
     App\EventListener\ExceptionListener:
